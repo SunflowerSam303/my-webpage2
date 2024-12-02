@@ -1,25 +1,24 @@
-// Define a template using Mustache.js
+// Define the Mustache.js template
 var template = `
-    <ul>
-        {{#data}}
-        <li>Name: {{name}}, Age: {{age}}, City: {{city}}</li>
-        {{/data}}
-    </ul>
+    {{#books}}
+    <div class="book-card">
+        <h2 class="book-title">{{title}}</h2>
+        <p class="book-details">Author: {{author}}</p>
+        <p class="book-details">Year: {{year}}</p>
+        <p class="book-details">Genre: {{genre}}</p>
+    </div>
+    {{/books}}
 `;
 
-// Get the 'output' div element
+// Get the 'output' div
 var output = document.getElementById('output');
 
-// Fetch JSON data from the file
-fetch('data.json')
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        // Render the data using the template
-        var rendered = Mustache.render(template, { data: data });
+// Fetch data from the JSON file
+fetch('library.json')
+    .then(response => response.json())
+    .then(data => {
+        // Render the data with Mustache
+        var rendered = Mustache.render(template, { books: data });
         output.innerHTML = rendered;
     })
-    .catch(function(error) {
-        console.error('Error:', error);
-    });
+    .catch(error => console.error('Error fetching data:', error));
